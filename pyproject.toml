@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flukaisotopeanalysis"
+version = "0.1.0"
+description = "Standalone FLUKA RESNUCLEi isotope/activation analysis"
+requires-python = ">=3.10"
+dependencies = [
+    "pyyaml",
+    "pandas",
+    "openpyxl",
+    "periodictable",
+    "radioactivedecay",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.setuptools]
+py-modules = ["run_analysis"]
+packages = ["isotope_analysis"]
