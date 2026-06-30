@@ -6,11 +6,16 @@ Reads raw `RESNUCLEi` binaries (`fort.21`, …) and/or already-processed `.rnc`
 files (e.g. from FLAIR), computes per-isotope activity (Bq), error, and mass
 (µg), and writes an Excel workbook — for a single simulation directory.
 
-## Install
+## Setup (no installation required)
+
+No `pip install` of this project is needed — run the script directly. Just make
+the third-party libraries available:
 
 ```bash
-pip install -e .
+pip install pyyaml pandas openpyxl periodictable radioactivedecay
 ```
+
+(Optional: `pip install -e .` still works if you want it on your path.)
 
 ## Usage
 
