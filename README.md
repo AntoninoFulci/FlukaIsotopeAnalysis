@@ -15,8 +15,6 @@ the third-party libraries available:
 pip install pyyaml pandas openpyxl periodictable radioactivedecay
 ```
 
-(Optional: `pip install -e .` still works if you want it on your path.)
-
 ## Usage
 
 ```bash
