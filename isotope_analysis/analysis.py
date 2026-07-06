@@ -51,8 +51,7 @@ def resolve_rnc(directory: Path, unit: int, executable: str) -> Optional[Path]:
     return out_path
 
 
-def run_analysis(config: AnalysisConfig) -> None:
-    directory = config.directory
+def _collect_rows(directory: Path, config) -> list[dict]:
     rows: list[dict] = []
     for unit in config.units:
         path = resolve_rnc(directory, unit, config.executable)
@@ -64,11 +63,14 @@ def run_analysis(config: AnalysisConfig) -> None:
             print(f"[warn] unit {unit}: {path.name} has no detector data, skipping")
             continue
         rows.append(row)
+    return rows
 
+
+def run_analysis(config) -> None:
+    rows = _collect_rows(config.directory, config)
     if not rows:
         print("[analyze] no data found for any unit; nothing written")
         return
-
-    output_path = directory / config.output
+    output_path = config.directory / config.output
     write_activity_workbook(rows, config.isotopes, config.volume, output_path)
     print(f"[analyze] written {output_path}")
