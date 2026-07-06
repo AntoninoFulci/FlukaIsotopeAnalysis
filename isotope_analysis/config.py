@@ -13,6 +13,8 @@ class AnalysisConfig:
     volume: float
     executable: str = "usrsuw"
     output: str = "isotopes.xlsx"
+    grid: bool = False
+    summary_output: str = "isotopes_summary.xlsx"
 
 
 def load_analysis_config(path: Path) -> AnalysisConfig:
@@ -44,4 +46,6 @@ def load_analysis_config(path: Path) -> AnalysisConfig:
         volume=float(a["volume"]),
         executable=a.get("executable", "usrsuw"),
         output=a.get("output", "isotopes.xlsx"),
+        grid=bool(a.get("grid", False)),
+        summary_output=a.get("summary_output", "isotopes_summary.xlsx"),
     )
