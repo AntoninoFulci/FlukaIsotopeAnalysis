@@ -39,6 +39,27 @@ For each unit: an existing `*<unit>*.rnc` is used as-is; otherwise raw
 `*.<unit>`/`fort.<unit>` files are processed with `executable` into
 `merged_<unit>.rnc`. Output: an `Activity` sheet, one row per cooling time.
 
+### Grid mode
+
+Point the tool at a whole fluka-grid-search `results/` folder and analyse every
+parameter combination at once. Enable it with `grid: true`:
+
+```yaml
+analysis:
+  directory: /path/to/results   # the grid search's results/ folder
+  grid: true
+  units: [21, 22, 23]
+  volume: 1000
+  isotopes: { 31: 70, 30: 69 }
+  output: isotopes.xlsx                  # per-combo workbook (in each combo folder)
+  summary_output: isotopes_summary.xlsx  # aggregated workbook (in results/)
+```
+
+For each combo folder it collects the runs' raw RESNUCLEi files into
+`<combo>/_collected/`, merges them with `usrsuw`, writes a per-combo `isotopes.xlsx`,
+and finally an aggregated `isotopes_summary.xlsx` (one row per combo × cooling time)
+in the `results/` folder.
+
 ## Library use
 
 ```python
