@@ -5,6 +5,7 @@ from pathlib import Path
 
 from isotope_analysis.config import load_analysis_config
 from isotope_analysis.analysis import run_analysis
+from isotope_analysis.grid import run_grid_analysis
 
 
 def main() -> None:
@@ -15,7 +16,10 @@ def main() -> None:
     args = parser.parse_args()
 
     config = load_analysis_config(args.config)
-    run_analysis(config)
+    if config.grid:
+        run_grid_analysis(config)
+    else:
+        run_analysis(config)
 
 
 if __name__ == "__main__":
