@@ -9,12 +9,28 @@ import yaml
 class AnalysisConfig:
     directory: Path
     units: list[int]
-    isotopes: dict[int, int]
+    isotopes: list[tuple[int, int]]
     volume: float
     executable: str = "usrsuw"
     output: str = "isotopes.xlsx"
     grid: bool = False
     summary_output: str = "isotopes_summary.xlsx"
+
+
+def _parse_isotopes(raw: dict) -> list[tuple[int, int]]:
+    """Accept `Z: A` (single) or `Z: [A1, A2, ...]` (multiple per element).
+
+    Returns a flat, sorted list of unique (Z, A) pairs.
+    """
+    pairs: list[tuple[int, int]] = []
+    for z, a in raw.items():
+        zi = int(z)
+        alist = a if isinstance(a, (list, tuple)) else [a]
+        for ai in alist:
+            pair = (zi, int(ai))
+            if pair not in pairs:
+                pairs.append(pair)
+    return sorted(pairs)
 
 
 def load_analysis_config(path: Path) -> AnalysisConfig:
@@ -35,7 +51,7 @@ def load_analysis_config(path: Path) -> AnalysisConfig:
     if not units:
         raise ValueError("analysis.units must list at least one unit number")
 
-    isotopes = {int(k): int(v) for k, v in a["isotopes"].items()}
+    isotopes = _parse_isotopes(a["isotopes"])
     if not isotopes:
         raise ValueError("analysis.isotopes must list at least one Z: A pair")
 

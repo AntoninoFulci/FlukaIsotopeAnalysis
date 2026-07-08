@@ -11,7 +11,7 @@ _AVOGADRO = 6.02214076e23
 
 def read_resnuclei_file(
     path: Path,
-    requested_isotopes: dict[int, int],
+    requested_isotopes: list[tuple[int, int]],
     params: dict,
 ) -> Optional[dict]:
     if not path.exists():
@@ -52,7 +52,7 @@ def read_resnuclei_file(
         "CoolingTime": format_decay_time(tdecay_s),
         "Parameters": " ".join(f"{k}={v}" for k, v in params.items()),
     }
-    for z, a in sorted(requested_isotopes.items()):
+    for z, a in sorted(requested_isotopes):
         sym = isotope_symbol(z, a)
         bq, bq_err = lookup.get((z, a), (0.0, 0.0))
         pct_err = (bq_err / bq * 100) if bq != 0 else 0.0
